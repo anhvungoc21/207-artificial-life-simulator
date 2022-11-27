@@ -1,17 +1,21 @@
 package lifesim;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
+/**
+ * The Population class simulates the Population of an artificial life simulator
+ */
 public class Population {
 	
 	/**
-	 * Constants for possible names of organisms in a Population
+	 * Constant for the number of neighbors that receive energy from a reproduction 
 	 */
-	private static final String coopName = "Cooperator";
-	private static final String defName = "Defector";
-	private static final String parCoopName = "PartialCooperator";
+	private static final int NUM_NEIGHBORS = 8;
 	
 	/**
 	 * A HashMap to keep track of each organism counts
@@ -36,15 +40,15 @@ public class Population {
 		for (String org: counts.keySet()) {
 			int orgCounts = counts.get(org);
 			
-			if (org.equals(coopName)) {
+			if (org.equals(Organism.COOP_NAME)) {
 				for (; orgCounts > 0; orgCounts--) {
 					this.organisms.add(new Cooperator());
 				}
-			} else if (org.equals(defName)) {
+			} else if (org.equals(Organism.DEF_NAME)) {
 				for (; orgCounts > 0; orgCounts--) {
 					this.organisms.add(new Defector());
 				}
-			} else if (org.equals(parCoopName)) {
+			} else if (org.equals(Organism.PAR_COOP_NAME)) {
 				for (; orgCounts > 0; orgCounts--) {
 					this.organisms.add(new PartialCooperator());
 				}
@@ -60,10 +64,58 @@ public class Population {
 	 * Updates all Organisms in this Population
 	 */
 	public void update() {
-		for (Organism org: this.organisms) {
+		Random rand = new Random();
+		
+		for (int i = 0; i < this.organisms.size(); i++) {
+			Organism org = this.organisms.get(i);
+			
+			// Updates the Organism by calling its update() method
 			org.update();
-		}
-	}
+			
+			// Checks if the Organism cooperates
+			if (org.cooperates()) {
+				org.decrementEnergy(); // this Organism loses 1 energy
+				
+				// Randomly selects 8 neighbors
+				Set<Integer> indices = new HashSet<>();
+				while (indices.size() != NUM_NEIGHBORS) {
+					int randInd = rand.nextInt();
+					
+					// Ensures that chosen index is not the current `org`
+					if (!(randInd == i)) {
+						indices.add(randInd);
+					}
+				}
+				
+				// Spreads energy to the neighbors
+				for (Integer index: indices) {
+					this.organisms.get(index).incrementEnergy();
+				}
+			}
+			
+			// Checks if the Organism reproduces
+			if (org.getEnergy() >= Organism.REP_ENERGY_LEVEL) {
+				int randInd = rand.nextInt();
+				Organism oldOrg = this.organisms.get(randInd);
+				Organism newOrg = org.reproduce();
+				
+				// Depletes energy of reproducing Organism
+				while (oldOrg.getEnergy() != 0) {
+					oldOrg.decrementEnergy();
+				}
+				
+				// Replace random Organism in this Population
+				this.organisms.set(rand.nextInt(), newOrg);
+
+				
+				// Updates Map of Organism counts
+				this.counts.put(oldOrg.getType(), this.counts.get(oldOrg.getType()) - 1);
+				this.counts.put(newOrg.getType(), this.counts.get(newOrg.getType()) + 1);
+			}
+ 			
+		} // for
+		
+	} // update
 	
 	/**
 	 * Calculates the cooperation mean of all Organisms in this Population

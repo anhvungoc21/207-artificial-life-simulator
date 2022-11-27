@@ -17,6 +17,7 @@ public class ALifeSim {
 		} catch(Exception e) {
 			
 		}
+
 	}
 	
 	/**

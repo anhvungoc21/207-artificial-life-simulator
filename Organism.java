@@ -1,6 +1,29 @@
 package lifesim;
 
+/**
+ * The Organism class simulates an organism in a population of an artificial life simulator
+ */
 public abstract class Organism {
+	
+	/**
+	 * Constants for possible names of Organisms in a Population
+	 */
+	public static final String COOP_NAME = "Cooperator";
+	public static final String DEF_NAME = "Defector";
+	public static final String PAR_COOP_NAME = "PartialCooperator";	
+	
+	/**
+	 * Constants for the cooperation probabilities of each Organism type
+	 */
+	public static final double COOP_PROB = 1;
+	public static final double DEF_PROB = 0;
+	public static final double PAR_COOP_PROB = 0.5;
+	
+	/**
+	 * Constant for the energy level at which an Organism reproduces
+	 */
+	public static final int REP_ENERGY_LEVEL = 10;
+	
 	/**
 	 * Private field for the energy level of this Organism
 	 */
