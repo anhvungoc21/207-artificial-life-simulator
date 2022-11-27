@@ -1,5 +1,8 @@
 package lifesim;
 
+/**
+ * A Cooperator is an Organism that always cooperates
+ */
 public class Cooperator extends Organism {
 	
 	/**

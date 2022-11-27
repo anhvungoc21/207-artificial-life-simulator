@@ -1,5 +1,8 @@
 package lifesim;
 
+/**
+ * A Defector is an Organism that never cooperates
+ */
 public class Defector extends Organism {
 	
 	/**

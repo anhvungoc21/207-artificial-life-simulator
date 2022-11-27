@@ -1,5 +1,8 @@
 package lifesim;
 
+/**
+ * A PartialCooperator is an Organism that cooperates 50% of the time
+ */
 public class PartialCooperator extends Organism {
 	
 	/**
