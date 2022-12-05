@@ -25,7 +25,7 @@ public class ALifeSim {
 			counts.put(Organism.PAR_COOP_NAME, parCoopCount);
 			Population population = new Population(counts);
 			
-			// Simulate life by carrying out iterations
+			// Simulate life by going through iterations
 			for (int i = 0; i < iters; i++) {
 				population.update();
 			}

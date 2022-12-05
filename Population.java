@@ -30,13 +30,14 @@ public class Population {
 	 */
 	public Population(Map<String, Integer> counts) {
 		
+		this.counts = counts;
+		
 		// Calculate population and initialize array
 		int popSize = 0;
 		for (Integer orgPop: counts.values()) {
 			popSize += orgPop;
 		}
 		this.organisms = new Organism[popSize];
-		this.counts = counts;
 		
 		// Create organisms based on their names and counts
 		int index = 0;
@@ -65,6 +66,11 @@ public class Population {
 	
 	/**
 	 * Updates all Organisms in this Population
+	 * This method has the following intended random behaviors:
+	 * - The 8 energy spread upon cooperation is always
+	 * given to organisms other than the one cooperating.
+	 * - Any organism produced may replace any existing organism, 
+	 * including the one reproducing.
 	 */
 	public void update() {
 		
@@ -92,7 +98,7 @@ public class Population {
 					this.organisms[index].incrementEnergy();
 				}
 			}
-			
+		
 			// Checks if the Organism reproduces
 			if (org.getEnergy() >= Organism.REP_ENERGY_LEVEL) {
 				int randInd = getRandomIndex();
