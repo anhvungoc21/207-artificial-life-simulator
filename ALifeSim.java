@@ -1,5 +1,14 @@
 package lifesim;
 
+/*
+ * Name of all author: Anh Vu
+ * Assignment name: Assignment 6 - Artificial Life
+ * Assignment due date: December 5, 2022
+ * Written/online sources used: https://docs.oracle.com/javase/7/docs/api/
+ * Help obtained: None
+ * I confirm that the above list of sources is complete AND that I have not talked to anyone else (e.g., CSC 207 students) about the solution to this problem.
+ */
+
 import java.util.HashMap;
 import java.util.Map;
 
